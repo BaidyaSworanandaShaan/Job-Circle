@@ -26,14 +26,14 @@ DATABASE_URL="mysql://user:password@localhost:3306/job_portal"
 3. Set up the database
    npx prisma migrate dev
 
-4. Run the servers
+# Run the servers
 
-   # Backend
+# Backend
 
-   cd backend
-   npm run dev
+cd backend
+npm run dev
 
-   # Frontend
+# Frontend
 
-   cd ..
-   npm run dev
+cd ..
+npm run dev
