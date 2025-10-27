@@ -8,20 +8,18 @@ REFRESH_TOKEN_SECRET="your_secret_key"
 ACCESS_TOKEN_SECRET="your_secret_key"
 DATABASE_URL="mysql://user:password@localhost:3306/job_portal"
 
-Installation
+# Installation
 
-1. Clone the repository
+1. Clone the repository :
    git clone https://github.com/yourusername/job-portal.git
    cd job-portal
 
 2. Install Dependencies
 
-   # Frontend
-
+   Frontend
    npm install
 
-   # Backend
-
+   Backend
    cd backend
    npm install
 
