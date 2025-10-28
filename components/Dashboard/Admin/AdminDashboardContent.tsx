@@ -7,6 +7,7 @@ import { AdminStatsGrid } from "./AdminStatsGrid";
 import AdminAddJob from "./AdminAddJob";
 import Link from "next/link";
 import AdminSearchJob from "./AdminSearchJob";
+import AdminEnquiry from "./AdminEnquiry";
 
 const AdminDashboardContent = () => {
   return (
@@ -23,7 +24,9 @@ const AdminDashboardContent = () => {
                 </button>
               </Link>
             </div>{" "}
-            <div></div>
+            <div>
+              <AdminEnquiry />
+            </div>
           </div>
         </div>
       </div>

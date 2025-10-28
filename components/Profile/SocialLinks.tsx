@@ -6,16 +6,16 @@ interface SocialLinksProps {
 
 export function SocialLinks({ profile }: SocialLinksProps) {
   const links = [
-    { label: "Portfolio", url: profile.portfolioURL, icon: "🔗" },
-    { label: "LinkedIn", url: profile.linkedinURL, icon: "💼" },
-    { label: "GitHub", url: profile.githubURL, icon: "💻" },
+    { label: "Portfolio", url: profile?.portfolioURL, icon: "🔗" },
+    { label: "LinkedIn", url: profile?.linkedinURL, icon: "💼" },
+    { label: "GitHub", url: profile?.githubURL, icon: "💻" },
   ];
 
   return (
     <section className="border-t border-border pt-8 pb-8">
       <h2 className="text-2xl font-semibold text-foreground">Connect</h2>
       <div className="mt-4 flex flex-wrap gap-4">
-        {links.map((link) => (
+        {links?.map((link) => (
           <a
             key={link.label}
             href={link.url}

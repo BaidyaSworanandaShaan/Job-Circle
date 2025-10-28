@@ -1,6 +1,7 @@
 import { Job } from "@/types/Job";
-import ApplyButton from "@/components/ApplyButton";
+
 import Applicants from "@/components/Dashboard/Admin/Applicants";
+import AdminDeleteButton from "@/components/Dashboard/Admin/AdminDeleteButton";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -96,8 +97,10 @@ export default async function JobDetail({ params }: JobDetailProps) {
         </div>
       </section>
 
-      {/* Delete Button */}
       <Applicants jobId={job.id} />
+      <div className="flex mt-4 justify-end">
+        <AdminDeleteButton jobId={job.id} />
+      </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import {
   postJob,
   listJobs,
   listSingleJob,
+  deleteJob,
 } from "../controllers/job.controller";
 
 const router = Router();
@@ -13,5 +14,6 @@ router.post("/", authenticate, authorize("ADMIN"), postJob);
 
 router.get("/", listJobs);
 router.get("/:id", listSingleJob);
+router.delete("/:id", authenticate, authorize("ADMIN"), deleteJob);
 
 export default router;

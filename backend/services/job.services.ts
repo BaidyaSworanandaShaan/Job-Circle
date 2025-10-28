@@ -29,8 +29,8 @@ export const createJob = async (data: JobInput) => {
 };
 export const getAllJobs = async () => {
   return prisma.job.findMany({
-    orderBy:{
-      createdAt:"desc",
+    orderBy: {
+      createdAt: "desc",
     },
     include: { postedBy: { select: { id: true, name: true, email: true } } },
   });
@@ -40,4 +40,22 @@ export const getSingleJob = async (id: number) => {
     where: { id },
     include: { postedBy: { select: { id: true, name: true, email: true } } },
   });
+};
+
+export const deleteJobService = async (jobId: number) => {
+  // Check if job exists
+  const job = await prisma.job.findUnique({
+    where: { id: jobId },
+  });
+
+  if (!job) {
+    throw new Error("Job not found");
+  }
+
+  // Delete the job
+  await prisma.job.delete({
+    where: { id: jobId },
+  });
+
+  return { message: "Job deleted successfully ✅" };
 };

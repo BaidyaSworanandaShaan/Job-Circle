@@ -101,3 +101,14 @@ export const completeOrUpdateProfile = async (
 
   return profile;
 };
+
+export const getAllUsersService = async () => {
+  const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      email: true,
+    },
+  });
+  return users;
+};

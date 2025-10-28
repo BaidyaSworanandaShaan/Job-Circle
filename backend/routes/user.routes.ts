@@ -2,6 +2,7 @@ import { Router } from "express";
 import { authenticate, authorize } from "../middleware/auth";
 import {
   completeUserProfile,
+  getAllUsers,
   getUserProfile,
   getUserProfileViaAdmin,
   getUserStats,
@@ -9,6 +10,7 @@ import {
 
 const router = Router();
 
+router.get("/", authenticate, authorize("ADMIN"), getAllUsers);
 router.get("/profile", authenticate, getUserProfile);
 router.get(
   "/:id/admin",

@@ -17,7 +17,7 @@ export function EducationSection({ education }: EducationSectionProps) {
     <section className="border-t border-border pt-8">
       <h2 className="text-2xl font-semibold text-foreground">Education</h2>
       <div className="mt-6 space-y-6">
-        {education.map((edu, index: number) => (
+        {education?.map((edu, index: number) => (
           <div key={index} className="border-l-2 border-primary pl-4">
             <h3 className="font-semibold text-foreground">{edu.degree}</h3>
             <p className="text-sm text-muted-foreground">{edu.institution}</p>

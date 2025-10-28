@@ -6,7 +6,7 @@ interface ProfileHeaderProps {
 
 export function ProfileHeader({ user }: ProfileHeaderProps) {
   const initials =
-    `${user?.profile.firstName[0]}${user?.profile.lastName[0]}`.toUpperCase();
+    `${user?.profile?.firstName[0]}${user?.profile?.lastName[0]}`.toUpperCase();
 
   return (
     <div className="flex items-start gap-6">
@@ -15,13 +15,13 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
       </div>
       <div className="flex-1">
         <h1 className="text-4xl font-bold text-foreground">
-          {user?.profile.firstName} {user?.profile.lastName}
+          {user?.profile?.firstName} {user?.profile?.lastName}
         </h1>
         <p className="mt-2 text-lg text-muted-foreground">
-          {user?.profile.phone}
+          {user?.profile?.phone}
         </p>
         <p className="text-sm text-muted-foreground">
-          {user?.profile.city}, {user?.profile.country}
+          {user?.profile?.city}, {user?.profile?.country}
         </p>
       </div>
     </div>

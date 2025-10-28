@@ -2,12 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export function AdminStatsGrid() {
   const { accessToken } = useAuth();
-  const [stats, setStats] = useState<{ label: string; value: string }[]>([]);
+  const router = useRouter();
+  const [stats, setStats] = useState<
+    { label: string; value: string; href: string }[]
+  >([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,27 +20,33 @@ export function AdminStatsGrid() {
 
       try {
         const res = await fetch(`${BACKEND_URL}/api/admin/stats`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+          headers: { Authorization: `Bearer ${accessToken}` },
         });
 
         if (!res.ok) throw new Error("Failed to fetch admin stats");
 
         const { data } = await res.json();
-        console.log("Admin Stats:", data);
 
-        // Map backend data to display format
         setStats([
-          { label: "Total Users", value: String(data.totalUsers) },
-          { label: "Total Jobs", value: String(data.totalJobs) },
+          {
+            label: "Total Users",
+            value: String(data.totalUsers),
+            href: "/admin/dashboard/users",
+          },
+          {
+            label: "Total Jobs",
+            value: String(data.totalJobs),
+            href: "/admin/dashboard/jobs",
+          },
           {
             label: "Total Submitted Applications",
             value: String(data.totalApplications),
+            href: "/admin/dashboard/applications",
           },
           {
-            label: "Total Enquiry ",
+            label: "Total Enquiry",
             value: String(data.totalEnquiry),
+            href: "/admin/dashboard/enquiry",
           },
         ]);
       } catch (error) {
@@ -51,8 +61,8 @@ export function AdminStatsGrid() {
 
   if (loading) {
     return (
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 animate-pulse">
-        {[1, 2, 3].map((i) => (
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 animate-pulse">
+        {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
             className="h-24 bg-gray-200 rounded-xl border border-gray-100"
@@ -63,11 +73,12 @@ export function AdminStatsGrid() {
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="rounded-xl border bg-white border-gray-100 p-5 shadow-sm transition hover:shadow-md"
+          onClick={() => router.push(stat.href)}
+          className="rounded-xl border bg-white border-gray-100 p-5 shadow-sm transition hover:shadow-md cursor-pointer"
         >
           <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
           <p className="text-3xl font-semibold text-gray-900 mb-1">

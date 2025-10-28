@@ -68,7 +68,7 @@ model Enquiry{
     emailAddress String
     subject String
     message String
-     createdAt      DateTime     @default(now())
+    createdAt      DateTime     @default(now())
 }
 
 enum JobType {
@@ -84,12 +84,12 @@ model Application {
   userId    Int
   appliedAt DateTime @default(now())
 
-  // Relations
-  job       Job      @relation(fields: [jobId], references: [id])
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id])
 
-  @@unique([jobId, userId]) // prevent duplicate applications
+  @@unique([jobId, userId])
 }
+
 
 enum Role {
   ADMIN
