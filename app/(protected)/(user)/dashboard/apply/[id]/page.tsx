@@ -5,18 +5,17 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useParams } from "next/navigation";
 import { Education, Experience } from "@/types/Profile";
-import { useRouter } from "next/router";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const DashboardApplication = () => {
   const params = useParams();
 
-  const { user, accessToken } = useAuth();
+  const { accessToken } = useAuth();
   const [userData, setUserData] = useState<any>(null);
   const [job, setJob] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
+  const [applications, setApplications] = useState<any[]>([]);
   const [openSections, setOpenSections] = useState({
     education: true,
     experience: true,
@@ -33,7 +32,7 @@ const DashboardApplication = () => {
     type: "success" | "error" = "success"
   ) => {
     setSnackbar({ message, type });
-    setTimeout(() => setSnackbar(null), 4000); // hide after 4 seconds
+    setTimeout(() => setSnackbar(null), 4000);
   };
   const toggleSection = (section: keyof typeof openSections) => {
     setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
@@ -58,6 +57,30 @@ const DashboardApplication = () => {
     };
     fetchProfile();
   }, [accessToken]);
+
+  useEffect(() => {
+    const fetchApplications = async () => {
+      if (!accessToken) return;
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/applications`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        if (!res.ok) throw new Error("Failed to fetch applications");
+        const data = await res.json();
+        console.log(data);
+        setApplications(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchApplications();
+  }, [accessToken]);
+  console.log(applications);
+  const hasApplied = applications?.some(
+    (app) => String(app.job.id) === String(params.id) && app.status
+  );
+
+  console.log(hasApplied);
 
   // Fetch job details
   useEffect(() => {
@@ -92,6 +115,7 @@ const DashboardApplication = () => {
   }
 
   const { profile } = userData;
+
   const handleSubmit = async () => {
     if (!accessToken || !params?.id) return;
 
@@ -314,12 +338,21 @@ const DashboardApplication = () => {
           >
             Edit Profile
           </Link>
-          <button
-            onClick={handleSubmit}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Submit Application
-          </button>
+          {hasApplied ? (
+            <button
+              disabled
+              className="px-4 py-2 bg-gray-400 text-white rounded-md cursor-not-allowed text-center"
+            >
+              Already Applied
+            </button>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Submit Application
+            </button>
+          )}
         </div>
       </div>{" "}
       {snackbar && (

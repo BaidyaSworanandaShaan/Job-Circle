@@ -34,7 +34,7 @@ export default function AdminSearchJob() {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   return (
-    <div className="w-full max-w-3xl mx-auto rounded-xl border border-gray-100 bg-white shadow-sm">
+    <div className=" border border-gray-100 bg-white shadow-sm">
       {/* Header */}
       <div className="border-b border-gray-100 px-6 py-4">
         <h2 className="text-lg font-semibold text-gray-900">Trending Jobs</h2>
@@ -86,7 +86,7 @@ export default function AdminSearchJob() {
                       )}
                     </div>
                   </div>
-                  <Link href={`/admin/dashboard/jobs/${job.id}`}>
+                  <Link href={`/admin/jobs/${job.id}`}>
                     <button className="px-4 py-2 rounded-lg text-white font-semibold bg-blue-600 hover:bg-blue-700">
                       View Detail
                     </button>

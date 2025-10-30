@@ -109,6 +109,9 @@ export const getAllUsersService = async () => {
       name: true,
       email: true,
     },
+    orderBy: {
+      name: "asc",
+    },
   });
   return users;
 };

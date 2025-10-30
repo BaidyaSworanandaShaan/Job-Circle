@@ -24,7 +24,7 @@ const Users = () => {
   const { accessToken } = useAuth();
 
   const handleViewProfile = (userId: number) => {
-    router.push(`/admin/dashboard/users/${userId}`); // Navigate to profile page
+    router.push(`/admin/users/${userId}`); // Navigate to profile page
   };
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const Users = () => {
               </p>
               <button
                 onClick={() => handleViewProfile(user.id)}
-                className=" mt-2 px-3 py-2 rounded-lg text-white  bg-blue-600 hover:bg-blue-700"
+                className="mt-2 sm:mt-0 px-3 py-1.5 text-sm rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition"
               >
                 View Profile
               </button>

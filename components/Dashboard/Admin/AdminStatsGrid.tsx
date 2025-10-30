@@ -31,22 +31,22 @@ export function AdminStatsGrid() {
           {
             label: "Total Users",
             value: String(data.totalUsers),
-            href: "/admin/dashboard/users",
+            href: "/admin/users",
           },
           {
             label: "Total Jobs",
             value: String(data.totalJobs),
-            href: "/admin/dashboard/jobs",
+            href: "/admin/jobs",
           },
           {
             label: "Total Submitted Applications",
             value: String(data.totalApplications),
-            href: "/admin/dashboard/applications",
+            href: "/admin/applications",
           },
           {
             label: "Total Enquiry",
             value: String(data.totalEnquiry),
-            href: "/admin/dashboard/enquiry",
+            href: "/admin/enquiry",
           },
         ]);
       } catch (error) {

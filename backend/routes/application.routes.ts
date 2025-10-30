@@ -2,6 +2,7 @@ import { Router } from "express";
 import { authenticate, authorize } from "../middleware/auth";
 import {
   applyForJob,
+  callForInterview,
   getApplications,
   getApplicationsForSingleJob,
 } from "../controllers/application.controller";
@@ -16,5 +17,11 @@ router.get(
   getApplicationsForSingleJob
 );
 router.get("/", authenticate, getApplications);
+router.patch(
+  "/callInterview",
+  authenticate,
+  authorize("ADMIN"),
+  callForInterview
+);
 
 export default router;

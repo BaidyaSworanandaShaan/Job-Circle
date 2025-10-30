@@ -79,10 +79,11 @@ enum JobType {
 }
 
 model Application {
-  id        Int      @id @default(autoincrement())
+  id        Int               @id @default(autoincrement())
   jobId     Int
   userId    Int
-  appliedAt DateTime @default(now())
+  appliedAt DateTime          @default(now())
+  status    ApplicationStatus @default(APPLIED)  // NEW FIELD
 
   job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id])
@@ -94,4 +95,10 @@ model Application {
 enum Role {
   ADMIN
   USER
+}
+enum ApplicationStatus {
+  APPLIED
+  INTERVIEW
+  REJECTED
+  HIRED
 }

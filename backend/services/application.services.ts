@@ -32,16 +32,108 @@ export const createApplication = async (userId: number, jobId: number) => {
 };
 
 export const getApplicationsForUser = async (userId: number) => {
-  return prisma.application.findMany({
+  const applications = await prisma.application.findMany({
     where: { userId },
-    include: { job: true },
+    include: {
+      job: {
+        select: {
+          id: true,
+          title: true,
+          company: true,
+          location: true,
+          jobType: true,
+          salaryRange: true,
+          dueDate: true,
+          experience: true,
+        },
+      },
+    },
+    orderBy: { appliedAt: "desc" },
   });
+
+  return applications.map((app) => ({
+    applicationId: app.id,
+    job: app.job,
+    appliedAt: app.appliedAt,
+    status: app.status ?? "APPLIED",
+  }));
 };
 
 export const getAllApplications = async () => {
-  return prisma.application.findMany({
-    include: { user: true, job: true },
+  const applications = await prisma.application.findMany({
+    orderBy: {
+      appliedAt: "desc",
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+      job: {
+        select: {
+          id: true,
+          title: true,
+          company: true,
+          location: true,
+          jobType: true,
+          salaryRange: true,
+          dueDate: true,
+          experience: true,
+        },
+      },
+    },
   });
+
+  interface GroupedJob {
+    job: {
+      id: number;
+      title: string;
+      company: string;
+      location: string;
+      jobType: string;
+      salaryRange: string | null;
+      dueDate: Date;
+      experience: string;
+    };
+    applicants: {
+      applicationId: number;
+      id: number;
+      name: string;
+      email: string;
+      appliedAt: Date;
+      status?: "APPLIED" | "INTERVIEW" | "REJECTED" | "HIRED"; // added status
+    }[];
+  }
+
+  const grouped = applications.reduce<Record<number, GroupedJob>>(
+    (acc, app) => {
+      const jobId = app.job.id;
+
+      if (!acc[jobId]) {
+        acc[jobId] = {
+          job: app.job,
+          applicants: [],
+        };
+      }
+
+      acc[jobId].applicants.push({
+        applicationId: app.id,
+        id: app.user.id,
+        name: app.user.name,
+        email: app.user.email,
+        appliedAt: app.appliedAt,
+        status: app.status ?? "APPLIED", // include status, default to "APPLIED"
+      });
+
+      return acc;
+    },
+    {}
+  );
+
+  return Object.values(grouped);
 };
 
 export const getApplicationsByJobId = async (jobId: number) => {
@@ -50,10 +142,30 @@ export const getApplicationsByJobId = async (jobId: number) => {
     include: { user: true },
   });
 
-  // Map to only send necessary info
   return applications.map((app) => ({
     id: app.user.id,
     name: app.user.name,
     email: app.user.email,
   }));
+};
+export const callApplicantForInterview = async (applicationId: number) => {
+  if (!applicationId) throw new Error("Application ID is required");
+  try {
+    const updatedApplication = await prisma.application.update({
+      where: { id: applicationId },
+      data: { status: "INTERVIEW" },
+      include: {
+        user: {
+          select: { id: true, name: true, email: true },
+        },
+        job: {
+          select: { id: true, title: true, company: true },
+        },
+      },
+    });
+
+    return updatedApplication;
+  } catch (error) {
+    throw error;
+  }
 };

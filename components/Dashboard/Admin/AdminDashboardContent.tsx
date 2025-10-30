@@ -18,7 +18,7 @@ const AdminDashboardContent = () => {
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2">
               <AdminSearchJob />{" "}
-              <Link href="/admin/dashboard/jobs/add">
+              <Link href="/admin/jobs/add">
                 <button className=" my-5 px-4 py-2 rounded-lg text-white font-semibold bg-blue-600 hover:bg-blue-700 ">
                   + Add New Job
                 </button>

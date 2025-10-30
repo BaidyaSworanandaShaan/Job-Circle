@@ -1,6 +1,7 @@
 // controllers/application.controller.ts
 import { Request, Response } from "express";
 import {
+  callApplicantForInterview,
   createApplication,
   getAllApplications,
   getApplicationsByJobId,
@@ -48,5 +49,26 @@ export const getApplicationsForSingleJob = async (
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+export const callForInterview = async (req: Request, res: Response) => {
+  try {
+    const { applicationId } = req.body;
+    if (!applicationId)
+      return res.status(400).json({ message: "Application ID is required" });
+
+    const updatedApplication = await callApplicantForInterview(applicationId);
+
+    res.status(200).json({
+      applicationId: updatedApplication.id,
+      status: updatedApplication.status,
+      user: updatedApplication.user,
+      job: updatedApplication.job,
+      appliedAt: updatedApplication.appliedAt,
+    });
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: error.message || "Failed to update application" });
   }
 };

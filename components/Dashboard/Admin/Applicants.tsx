@@ -68,7 +68,7 @@ export default function Applicants({ jobId }: ApplicantsProps) {
                 <p className="text-sm text-gray-600">{applicant.email}</p>
               </div>
               <Link
-                href={`/admin/dashboard/users/${applicant.id}`}
+                href={`/admin/users/${applicant.id}`}
                 className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
               >
                 View Profile

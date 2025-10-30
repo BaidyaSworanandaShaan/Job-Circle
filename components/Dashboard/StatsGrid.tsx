@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export function StatsGrid() {
   const { accessToken } = useAuth();
-  const [stats, setStats] = useState<{ label: string; value: string }[]>([]);
+  const [stats, setStats] = useState<
+    { label: string; value: string; href?: string }[]
+  >([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,10 +30,15 @@ export function StatsGrid() {
 
         // Map backend data to display format
         setStats([
-          { label: "Total Jobs", value: String(data.totalJobs) },
+          {
+            label: "Total Jobs",
+            value: String(data.totalJobs),
+            href: "/jobs",
+          },
           {
             label: "Submitted Applications",
             value: String(data.totalApplications),
+            href: "/applications",
           },
         ]);
       } catch (error) {
@@ -59,15 +67,16 @@ export function StatsGrid() {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat) => (
-        <div
+        <Link
           key={stat.label}
-          className="rounded-xl border bg-white border-gray-100 p-5 shadow-sm transition hover:shadow-md"
+          href={stat.href || "#"}
+          className="rounded-xl border bg-white border-gray-100 p-5 shadow-sm transition hover:shadow-md block"
         >
           <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
           <p className="text-3xl font-semibold text-gray-900 mb-1">
             {stat.value}
           </p>
-        </div>
+        </Link>
       ))}
     </div>
   );
