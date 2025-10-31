@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@/types/Profile";
-import { Mail, MapPin, Briefcase, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 interface UserProfileContentProp {
   user: User;
@@ -52,7 +52,7 @@ export function UserProfile({ user }: UserProfileContentProp) {
           </button> */}
           <Link
             href="/dashboard/profile"
-            className="w-full block bg-blue-600 text-white rounded-lg px-8 py-3 hover:bg-blue-700
+            className="w-full  bg-blue-600 text-white rounded-lg px-8 py-3 hover:bg-blue-700
                transition-colors font-semibold shadow-sm text-center flex items-center justify-center gap-2"
           >
             View Full Profile

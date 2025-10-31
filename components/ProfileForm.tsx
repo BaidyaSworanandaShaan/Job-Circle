@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import Input from "@/components/ui/Input";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
 import axios from "axios";
+import { useState } from "react";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -11,21 +13,21 @@ interface ProfileFormProps {
   user: { id: string; name?: string; email?: string };
 }
 
+// Validation schema
+const profileSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+});
+
 export default function ProfileForm({ user }: ProfileFormProps) {
-  const [name, setName] = useState(user.name || "");
-  const [email, setEmail] = useState(user.email || "");
   const [message, setMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (values: { name: string; email: string }) => {
     setMessage(null);
-
     try {
-      const res = await axios.put(
-        `${BACKEND_URL}/api/user/${user.id}`,
-        { name, email },
-        { withCredentials: true }
-      );
+      await axios.put(`${BACKEND_URL}/api/user/${user.id}`, values, {
+        withCredentials: true,
+      });
       setMessage("Profile updated successfully!");
     } catch (err) {
       console.error(err);
@@ -34,26 +36,61 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 bg-white p-4 rounded shadow-sm"
-    >
-      <Input
-        name="name"
-        label="Name"
-        placeholder="Enter your name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <Input
-        name="email"
-        label="Email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <Button type="submit">Save Profile</Button>
-      {message && <p className="text-sm mt-2 text-green-600">{message}</p>}
-    </form>
+    <div className="bg-white p-6 rounded shadow-sm max-w-md mx-auto">
+      <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
+
+      <Formik
+        initialValues={{
+          name: user.name || "",
+          email: user.email || "",
+        }}
+        validationSchema={profileSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form className="space-y-4">
+            <Field
+              name="name"
+              as={Input}
+              label="Name"
+              placeholder="Enter your name"
+            />
+            <ErrorMessage
+              name="name"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+
+            <Field
+              name="email"
+              as={Input}
+              label="Email"
+              placeholder="Enter your email"
+            />
+            <ErrorMessage
+              name="email"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Saving..." : "Save Profile"}
+            </Button>
+
+            {message && (
+              <p
+                className={`text-sm mt-2 ${
+                  message.includes("success")
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {message}
+              </p>
+            )}
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 }

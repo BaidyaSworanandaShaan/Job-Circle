@@ -5,14 +5,6 @@ interface ExperienceSectionProps {
 }
 
 export function ExperienceSection({ experience }: ExperienceSectionProps) {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-    });
-  };
-
   return (
     <section className="border-t border-border pt-8">
       <h2 className="text-2xl font-semibold text-foreground">Experience</h2>

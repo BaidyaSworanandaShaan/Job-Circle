@@ -2,7 +2,7 @@ import About from "@/components/About";
 import CallToAction from "@/components/CallToAction";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
-import Navbar from "@/components/Navbar";
+
 import PopularJobs from "@/components/PopularJobs";
 
 export default function Home() {

@@ -1,5 +1,4 @@
 import { Job } from "@/types/Job";
-import ApplyButton from "./ApplyButton";
 import Link from "next/link";
 import JobCards from "./JobCards";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Formik, Form } from "formik";
+import { Formik, Form, FormikHelpers } from "formik";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -18,15 +18,15 @@ export default function RegisterForm() {
     type: "success" | "error";
     text: string;
   } | null>(null);
-
+  interface RegisterFormValues {
+    username: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }
   const handleSubmit = async (
-    values: {
-      username: string;
-      email: string;
-      password: string;
-      confirmPassword: string;
-    },
-    { setSubmitting, resetForm }: any
+    values: RegisterFormValues,
+    { setSubmitting, resetForm }: FormikHelpers<RegisterFormValues>
   ) => {
     setMessage(null);
     try {
@@ -42,8 +42,8 @@ export default function RegisterForm() {
       });
       resetForm();
       setTimeout(() => router.push("/login"), 2000);
-    } catch (error: any) {
-      if (error.response) {
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
         setMessage({
           type: "error",
           text: error.response.data.message || "Something went wrong",

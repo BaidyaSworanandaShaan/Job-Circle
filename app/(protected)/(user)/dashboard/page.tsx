@@ -6,12 +6,14 @@ import { useAuth } from "@/context/AuthContext";
 import DashboardContent from "@/components/Dashboard/DashboardContext";
 import WelcomeBox from "@/components/Dashboard/WelcomeBox";
 import DashboardHeader from "@/components/Dashboard/DashboardHeader";
+import { User } from "@/types/Profile";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const DashboardPage = () => {
   const { user, accessToken } = useAuth();
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<User | null>(null);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

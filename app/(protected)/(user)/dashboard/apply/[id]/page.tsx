@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useParams } from "next/navigation";
-import { Education, Experience } from "@/types/Profile";
+import { Application, Education, Experience, User } from "@/types/Profile";
+import { Job } from "@/types/Job";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -12,10 +13,10 @@ const DashboardApplication = () => {
   const params = useParams();
 
   const { accessToken } = useAuth();
-  const [userData, setUserData] = useState<any>(null);
-  const [job, setJob] = useState<any>(null);
+  const [userData, setUserData] = useState<User | null>(null);
+  const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
-  const [applications, setApplications] = useState<any[]>([]);
+  const [applications, setApplications] = useState<Application[]>([]);
   const [openSections, setOpenSections] = useState({
     education: true,
     experience: true,
@@ -135,9 +136,14 @@ const DashboardApplication = () => {
       }
 
       showSnackbar("Application submitted successfully!", "success");
-    } catch (error: any) {
-      console.error(error);
-      showSnackbar(`Error: ${error.message}`, "error");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error);
+        showSnackbar(`Error: ${error.message}`, "error");
+      } else {
+        console.error(error);
+        showSnackbar("An unknown error occurred.", "error");
+      }
     }
   };
 

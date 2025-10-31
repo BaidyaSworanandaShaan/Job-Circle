@@ -6,7 +6,7 @@ import { Trash2, Loader2 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 interface AdminDeleteButtonProps {
-  jobId: string;
+  jobId: number;
 }
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const AdminDeleteButton = ({ jobId }: AdminDeleteButtonProps) => {

@@ -74,14 +74,15 @@ export default async function JobDetail({ params }: JobDetailProps) {
           Required Skills
         </h2>
         <div className="flex flex-wrap gap-2">
-          {JSON.parse(job?.skillsRequired).map((skill: string, idx: number) => (
-            <span
-              key={idx}
-              className="px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-sm"
-            >
-              {skill}
-            </span>
-          ))}
+          {Array.isArray(job?.skillsRequired) &&
+            job.skillsRequired.map((skill: string, idx: number) => (
+              <span
+                key={idx}
+                className="px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-sm"
+              >
+                {skill}
+              </span>
+            ))}
         </div>
       </section>
 

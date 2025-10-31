@@ -2,31 +2,37 @@
 
 import React, { useState } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+
 import { contactUsSchema } from "@/lib/validationSchemas";
+
+interface ContactFormValues {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
 
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
 
-  const initialValues = {
+  const initialValues: ContactFormValues = {
     name: "",
     email: "",
     subject: "",
     message: "",
   };
+
   const handleSubmit = async (
-    values: typeof initialValues,
-    { resetForm }: any
+    values: ContactFormValues,
+    { resetForm }: FormikHelpers<ContactFormValues>
   ) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/enquiry`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             fullName: values.name,
             email: values.email,
@@ -44,9 +50,15 @@ const Contact = () => {
       resetForm();
 
       setTimeout(() => setSubmitted(false), 3000);
-    } catch (error) {
-      console.error("Error sending enquiry:", error);
-      alert("Something went wrong. Please try again later.");
+    } catch (error: unknown) {
+      // Type-safe error handling
+      if (error instanceof Error) {
+        console.error("Error sending enquiry:", error.message);
+        alert(`Something went wrong: ${error.message}`);
+      } else {
+        console.error("Unexpected error:", error);
+        alert("Something went wrong. Please try again later.");
+      }
     }
   };
 
@@ -59,8 +71,8 @@ const Contact = () => {
             Get in Touch
           </h1>
           <p className="text-lg text-muted-foreground">
-            We'd love to hear from you. Send us a message and we'll respond as
-            soon as possible.
+            We would love to hear from you. Send us a message and we will
+            respond as soon as possible.
           </p>
         </div>
       </div>
@@ -101,6 +113,7 @@ const Contact = () => {
                         className="text-red-600 text-sm mt-1"
                       />
                     </div>
+
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-2">
                         Email Address
@@ -117,6 +130,7 @@ const Contact = () => {
                         className="text-red-600 text-sm mt-1"
                       />
                     </div>
+
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-2">
                         Subject
@@ -132,6 +146,7 @@ const Contact = () => {
                         className="text-red-600 text-sm mt-1"
                       />
                     </div>
+
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-2">
                         Message
@@ -152,17 +167,16 @@ const Contact = () => {
 
                     <button
                       type="submit"
-                      className="w-full  bg-blue-600 text-white rounded-lg px-8 py-3 hover:bg-blue-700
-                    transition-colors font-semibold shadow-sm  flex items-center justify-center gap-2"
+                      className="w-full bg-blue-600 text-white rounded-lg px-8 py-3 hover:bg-blue-700 transition-colors font-semibold shadow-sm flex items-center justify-center gap-2"
                     >
-                      <Send className="h-5 w-5" />
-                      Send Message
+                      <Send className="h-5 w-5" /> Send Message
                     </button>
                   </Form>
                 )}
               </Formik>
             </div>
           </div>
+
           {/* Contact Info */}
           <div className="lg:col-span-1 space-y-8">
             <div className="flex gap-4">

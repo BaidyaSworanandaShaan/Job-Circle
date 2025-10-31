@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { loginSchema } from "@/lib/validationSchemas";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -14,16 +14,22 @@ import Link from "next/link";
 import LoginImage from "../public/login-illustration.png";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
 export default function LoginForm() {
   const router = useRouter();
-  const { login, user } = useAuth();
+  const { login } = useAuth();
   const [message, setMessage] = useState<{
     type: "success" | "error";
     text: string;
   } | null>(null);
 
-  const handleSubmit = async (values: any, { setSubmitting }: any) => {
+  const handleSubmit = async (
+    values: LoginFormValues,
+    { setSubmitting }: FormikHelpers<LoginFormValues>
+  ) => {
     setMessage(null); // reset previous messages
     try {
       const response = await axios.post(
@@ -49,8 +55,8 @@ export default function LoginForm() {
           router.push("/dashboard");
         }
       }, 1000);
-    } catch (error: any) {
-      if (error.response) {
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
         setMessage({
           type: "error",
           text: error.response.data.message || "Something went wrong",
@@ -138,7 +144,7 @@ export default function LoginForm() {
           )}
 
           <p className="text-sm text-gray-600 text-center mt-6">
-            Don't have an account?{" "}
+            Dont have an account?{" "}
             <Link href="/register" className="text-blue-600 hover:underline">
               Register
             </Link>

@@ -74,16 +74,15 @@ export default function AdminSearchJob() {
                       $ {job.salaryRange}
                     </p>
                     <div className="mt-3 flex flex-wrap gap-2">
-                      {JSON.parse(job.skillsRequired).map(
-                        (skill: string, idx: number) => (
+                      {Array.isArray(job?.skillsRequired) &&
+                        job.skillsRequired.map((skill: string, idx: number) => (
                           <span
                             key={idx}
                             className="px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-sm"
                           >
                             {skill}
                           </span>
-                        )
-                      )}
+                        ))}
                     </div>
                   </div>
                   <Link href={`/admin/jobs/${job.id}`}>

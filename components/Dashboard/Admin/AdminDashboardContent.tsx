@@ -1,10 +1,6 @@
 "use client";
 
-import { User } from "@/types/Profile";
-
-import JobSearch from "@/components/Dashboard/JobSearch";
 import { AdminStatsGrid } from "./AdminStatsGrid";
-import AdminAddJob from "./AdminAddJob";
 import Link from "next/link";
 import AdminSearchJob from "./AdminSearchJob";
 import AdminEnquiry from "./AdminEnquiry";

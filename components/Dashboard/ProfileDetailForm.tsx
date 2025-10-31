@@ -1,7 +1,13 @@
 "use client";
 
-import { Formik, Form, FieldArray, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import {
+  Formik,
+  Form,
+  FieldArray,
+  Field,
+  ErrorMessage,
+  FormikHelpers,
+} from "formik";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Input from "@/components/ui/Input";
@@ -10,7 +16,7 @@ import { profileSchema } from "@/lib/validationSchemas";
 import { User } from "@/types/Profile";
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 interface ProfileDetailFormProps {
-  user: User;
+  user: User | null;
 }
 const ProfileDetailForm = ({ user }: ProfileDetailFormProps) => {
   const router = useRouter();
@@ -43,7 +49,7 @@ const ProfileDetailForm = ({ user }: ProfileDetailFormProps) => {
   console.log(initialValues);
   const handleSubmit = async (
     values: typeof initialValues,
-    { setSubmitting }: any
+    { setSubmitting }: FormikHelpers<typeof initialValues>
   ) => {
     try {
       const res = await fetch(`${BACKEND_URL}/api/users/profile/complete`, {
@@ -56,9 +62,14 @@ const ProfileDetailForm = ({ user }: ProfileDetailFormProps) => {
       });
 
       if (!res.ok) throw new Error("Failed to save profile");
+
       router.push("/dashboard");
-    } catch (error) {
-      console.error(error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error saving profile:", error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
     } finally {
       setSubmitting(false);
     }

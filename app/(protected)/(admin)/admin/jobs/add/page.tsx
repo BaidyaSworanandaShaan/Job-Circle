@@ -1,6 +1,13 @@
 "use client";
 
-import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
+import {
+  Formik,
+  Form,
+  Field,
+  FieldArray,
+  ErrorMessage,
+  FormikHelpers,
+} from "formik";
 
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
@@ -28,7 +35,7 @@ const AddJobForm = () => {
 
   const handleSubmit = async (
     values: typeof initialValues,
-    { setSubmitting }: any
+    { setSubmitting }: FormikHelpers<typeof initialValues>
   ) => {
     if (!accessToken) return;
 
@@ -46,9 +53,13 @@ const AddJobForm = () => {
 
       alert("Job added successfully!");
       router.push("/admin/dashboard");
-    } catch (error: any) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert("Something went wrong");
+      }
       console.error(error);
-      alert(error.message || "Something went wrong");
     } finally {
       setSubmitting(false);
     }

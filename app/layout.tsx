@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Navbar from "@/components/Navbar";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 
 export const metadata: Metadata = {
   title: "Job Circle",
@@ -19,6 +20,7 @@ export default function RootLayout({
         <AuthProvider>
           <Navbar />
           {children}
+          <WhatsAppButton />
         </AuthProvider>
       </body>
     </html>

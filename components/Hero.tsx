@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function Hero() {
   const router = useRouter();
   const [jobTitle, setJobTitle] = useState("");
-  const [location, setLocation] = useState("");
+  const [location] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

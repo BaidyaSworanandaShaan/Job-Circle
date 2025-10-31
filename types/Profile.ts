@@ -11,6 +11,21 @@ export interface Experience {
   company: string;
   years: string;
 }
+export interface Application {
+  applicationId: number;
+  job: {
+    id: number;
+    title: string;
+    company: string;
+    location: string;
+    jobType: string;
+    salaryRange?: string | null;
+    dueDate: string;
+    experience: string;
+  };
+  appliedAt: string;
+  status: "APPLIED" | "INTERVIEW" | "REJECTED" | "HIRED";
+}
 
 export interface Profile {
   id: number;
@@ -29,8 +44,8 @@ export interface Profile {
   portfolioURL: string;
   linkedinURL: string;
   githubURL: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface User {

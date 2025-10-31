@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import React from "react";
 
 const AdminDashboard = () => {
-  const { user, accessToken } = useAuth();
+  const { user } = useAuth();
   return (
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl px-4  sm:px-6 lg:px-8 pt-28">

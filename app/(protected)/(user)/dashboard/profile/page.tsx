@@ -3,6 +3,7 @@
 import ProfileDetailContent from "@/components/Dashboard/ProfileDetailContent";
 import ProfileDetailForm from "@/components/Dashboard/ProfileDetailForm";
 import { useAuth } from "@/context/AuthContext";
+import { User } from "@/types/Profile";
 
 import React, { useEffect, useState } from "react";
 
@@ -10,7 +11,8 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const Profile = () => {
   const { accessToken } = useAuth();
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<User | null>(null);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

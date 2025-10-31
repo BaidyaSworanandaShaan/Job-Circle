@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import axios from "axios";
 
 interface ApplyButtonProps {
   jobId: number;
@@ -12,7 +11,7 @@ interface ApplyButtonProps {
 export default function ApplyButton({ jobId }: ApplyButtonProps) {
   const { user } = useAuth();
   const router = useRouter();
-  const [applied, setApplied] = useState(false);
+  const [applied] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleApply = async () => {

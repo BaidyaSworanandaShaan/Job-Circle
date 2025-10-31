@@ -2,24 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { Application } from "@/types/Profile";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-
-interface Application {
-  applicationId: number;
-  job: {
-    id: number;
-    title: string;
-    company: string;
-    location: string;
-    jobType: string;
-    salaryRange?: string | null;
-    dueDate: string;
-    experience: string;
-  };
-  appliedAt: string;
-  status: "APPLIED" | "INTERVIEW" | "REJECTED" | "HIRED";
-}
 
 const Applications = () => {
   const { accessToken } = useAuth();

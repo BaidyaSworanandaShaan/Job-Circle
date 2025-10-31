@@ -1,7 +1,6 @@
 import React from "react";
-import { ArrowRight, Briefcase, Users, Zap } from "lucide-react";
-import About from "@/components/About";
-import Image from "next/image";
+import { Briefcase, Users, Zap } from "lucide-react";
+
 const AboutPage = () => {
   return (
     <main className="py-28 min-h-screen text-foreground">
@@ -17,9 +16,9 @@ const AboutPage = () => {
               exceptional talent and for professionals to discover their next
               great opportunity.
             </p>
-          </div>{" "}
+          </div>
         </div>
-      </section>{" "}
+      </section>
       {/* Mission Section */}
       <section className="border-b border-border">
         <div className="max-w-6xl mx-auto px-6 py-16">
@@ -32,7 +31,7 @@ const AboutPage = () => {
                 and opportunity meet seamlessly.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                We're committed to removing barriers in hiring and empowering
+                We are committed to removing barriers in hiring and empowering
                 both job seekers and employers to make informed decisions that
                 lead to meaningful, long-term relationships.
               </p>

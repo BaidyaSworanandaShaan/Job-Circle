@@ -22,7 +22,7 @@ export default function About() {
               About <span className="text-blue-600">Job Circle</span>
             </h2>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              We're on a mission to connect talented professionals with their
+              We are on a mission to connect talented professionals with their
               dream careers. Our platform brings together job seekers and top
               employers, making the hiring process seamless and efficient.
             </p>

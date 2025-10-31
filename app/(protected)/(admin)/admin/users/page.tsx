@@ -37,12 +37,16 @@ const Users = () => {
         });
         setUsers(res.data.data);
         setFilteredUsers(res.data.data);
-      } catch (error: any) {
-        console.error(
-          "Error fetching users:",
-          error.response?.status,
-          error.response?.data
-        );
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          console.error(
+            "Error fetching users:",
+            error.response?.status,
+            error.response?.data
+          );
+        } else {
+          console.error("Unexpected error:", error);
+        }
       } finally {
         setLoading(false);
       }
